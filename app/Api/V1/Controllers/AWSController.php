@@ -103,8 +103,12 @@ class AWSController extends Controller
                 $return_json = ['error_code' => $code, 'error_msg' => $msg, 'result' => []];
                 return $return_json;
             }
-
-            $return_json = ['error_code' => '0', 'error_msg' => 'Success', 'result' => $result[$param['field']]];
+	    if($param['field'] == 'root'){
+		#$result = get_object_vars($result);
+		$return_json = ['error_code' => '0', 'error_msg' => 'Success', 'result' => json_encode($result,true)];
+	    } else {
+            	$return_json = ['error_code' => '0', 'error_msg' => 'Success', 'result' => $result[$param['field']]];
+	    }
         } else {
             $return_json = ['error_code' => '1001', 'error_msg' => "Unknown method {$awsclass}::{$awscommand}", 'result' => []];
         }
