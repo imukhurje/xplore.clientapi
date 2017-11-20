@@ -10,6 +10,8 @@ $api->version('v1', function ($api) {
 	$api->group(['middleware' => 'api.auth'], function ($api) {		
 		//Route::post('awscommand', 'AWSController@command');
 		$api->post('awscommand', 'App\Api\V1\Controllers\AWSController@command');
+		$api->post('awsfeaturedit', 'App\Api\V1\Controllers\AWSController@featureEdit');
+		$api->post('awsfeature', 'App\Api\V1\Controllers\AWSController@feature');
     });
 
 });

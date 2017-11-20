@@ -6,6 +6,7 @@ use JWTAuth;
 use Validator;
 use Config;
 use App\User;
+use App\CloudHelper;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
 use Dingo\Api\Routing\Helpers;
@@ -35,6 +36,52 @@ use Aws\CloudWatch\Exception\CloudWatchException;
 class AWSController extends Controller
 {
     use Helpers;
+
+    public function feature(Request $request)
+    {
+        $user = JWTAuth::parseToken()->authenticate();
+        $jsonData = $request->all();
+        $tempJson = json_encode($jsonData);
+        $tempJson = str_replace( "&#39;","'", $tempJson);
+        $jsonData = json_decode($tempJson);
+        $jsonData = get_object_vars($jsonData);
+        //return $jsonData;
+        $cloud = new CloudHelper();
+        $result = $cloud->call_cloud_api_command($jsonData);
+        return $result;         
+    }
+
+    public function featureEdit(Request $request)
+    {
+        $user = JWTAuth::parseToken()->authenticate();
+        $param = $request->all();
+        $error_msg = 'Success';
+        $error_code = '0';
+        $result = [];
+        $feature_file = "/var/www/xcloudclientapi/app/FeatureCommands/{$param['feature']}.php";
+        switch($param['command']) {
+            case 'save' :
+                $json = str_replace("&#39;", "'", $param['body']);
+                $res = file_put_contents($feature_file,$json);
+                if(!$res) {
+                    $error_code = "XCFeatureFileWriteError";
+                    $error_msg = "ERROR: Could not save feature code.";
+                    $result = ['body' => $param['body']];
+                }
+                break;
+            case 'get' : $body = file_get_contents($feature_file);
+                if(!$body) {
+                    $error_code = "XCFeatureFileReadError";
+                    $error_msg = "ERROR: Could not read feature code.";                 
+                } else {
+                    $result = [ 'body' => $body ];
+                }
+                break;
+        }
+
+        $return_json = ['error_code' => $error_code, 'error_msg' => $error_msg, 'result' => $result ];
+        return $return_json;
+    }
 
     public function command(Request $request)
     {
