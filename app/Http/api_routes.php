@@ -9,9 +9,10 @@ $api->version('v1', function ($api) {
 	// example of protected route
 	$api->group(['middleware' => 'api.auth'], function ($api) {		
 		//Route::post('awscommand', 'AWSController@command');
-		$api->post('awscommand', 'App\Api\V1\Controllers\AWSController@command');
-		$api->post('awsfeaturedit', 'App\Api\V1\Controllers\AWSController@featureEdit');
+		$api->post('command', 'App\Api\V1\Controllers\AWSController@command');
+		$api->post('featuredit', 'App\Api\V1\Controllers\AWSController@featureEdit');
 		$api->post('awsfeature', 'App\Api\V1\Controllers\AWSController@feature');
+		$api->post('scriptlang', 'App\Api\V1\Controllers\AWSController@scriptLang');
     });
 
 });
