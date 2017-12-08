@@ -42,9 +42,6 @@ class Handler extends ExceptionHandler
         $body = ['error_str' => $error_str, 'stack_str' => $stack_str ];
         $res = ['error_code' => 'XCInternalError', 'error_msg' => '500 Internal server error', 'result' => $body ];
 
-        $myfile = fopen("/var/lib/test.txt", "w") or die("Unable to open file!");
-        fwrite($myfile, $error_str);
-        fclose($myfile);
         return response(($res));
         //parent::report($e);
     }
@@ -58,11 +55,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        $myfile = fopen("/var/lib/test.txt", "w") or die("Unable to open file!");
-        $txt = "writing from render function\n";
-        fwrite($myfile, $txt);
-        fclose($myfile);
-       
         $error_str = $e->getMessage();
         $stack = $e->getTrace();
         $error_str = str_replace("\n", "<br>", $error_str);
