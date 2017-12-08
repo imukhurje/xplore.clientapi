@@ -112,14 +112,14 @@ class AWSController extends Controller
         $jsonData = json_decode($tempJson);
         $jsonData = get_object_vars($jsonData);
         //return $jsonData;
-        $creds = [
+        /*$creds = [
             'credentials' => [
-                'key'    => 'xxxxxxxxxxxxxx',
-                'secret' => 'xxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+                'xxx-key-xxx'    => env['xxxxxxxxx'],
+                'xxx-secret-xxx' => env['xxxxxxxxxxxxxxxxxxx'],
                 ],
             'version' => 'latest',
             'region' => $jsonData['region_id'],
-         ];
+         ];*/
         
         /*$provider = CredentialProvider::instanceProfile();
         $memoizedProvider = CredentialProvider::memoize($provider);
