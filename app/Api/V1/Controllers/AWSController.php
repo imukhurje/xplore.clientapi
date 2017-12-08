@@ -114,8 +114,8 @@ class AWSController extends Controller
         //return $jsonData;
         $creds = [
             'credentials' => [
-                'key'    => 'AKIAJ7MQ4FVAL5MNQZ6A',
-                'secret' => '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',
+                'key'    => 'xxxxxxxxxxxxxx',
+                'secret' => 'xxxxxxxxxxxxxxxxxxxxxxxxxxxx',
                 ],
             'version' => 'latest',
             'region' => $jsonData['region_id'],
